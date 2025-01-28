@@ -8,7 +8,7 @@
 <body>
   <ul class="nav" style="background-color: #e3f2fd;">
     <li class="nav-item">
-      <a class="nav-link active" href="{% url "classes" %}">На главную</a>
+      <a class="nav-link active" href="{% url 'classes' %}">На главную</a>
     </li>
   </ul>
   <div class="container">
@@ -27,7 +27,7 @@
           <tr>
             <th scope="row" style="text-align:center;">{{year_}}</th>
             {% for year, letter in year_letter_pairs %}
-              <td style="text-align:center;"><span style="font-size: 150%" class="align-middle">{{year}}{{letter}}</span>&nbsp&nbsp<a href="{% url "class_info" letter=letter year=year%}"><i class="material-icons align-middle" style="font-size: 100%">people</i>&nbspученики</a> <a href="{% url "schedule" year=year letter=letter%}"><i class="material-icons align-middle" style="font-size: 100%">schedule</i>&nbspрасписание</a></td>
+              <td style="text-align:center;"><span style="font-size: 150%" class="align-middle">{{year}}{{letter}}</span>&nbsp&nbsp<a href="{% url 'class_info' letter=letter year=year%}"><i class="material-icons align-middle" style="font-size: 100%">people</i>&nbspученики</a> <a href="{% url 'schedule' year=year letter=letter%}"><i class="material-icons align-middle" style="font-size: 100%">schedule</i>&nbspрасписание</a></td>
             {% endfor %}
           </tr>
         {% endfor %}

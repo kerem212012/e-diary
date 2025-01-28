@@ -8,10 +8,10 @@
   <body>
     <ul class="nav" style="background-color: #e3f2fd;">
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "classes" %}">На главную</a>
+        <a class="nav-link active" href="{% url 'classes' %}">На главную</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "class_info" letter=class_letter year=class_year %}">К классу</a>
+        <a class="nav-link active" href="{% url 'class_info' letter=class_letter year=class_year %}">К классу</a>
       </li>
     </ul>
     <div class="container">
@@ -34,7 +34,7 @@
                   {% if lesson %}
                     {{lesson.subject.title}}<br>
                     {{lesson.room}} каб.<br>
-                    <a href="{% url "journal" letter=class_letter year=class_year subject_id=lesson.subject.id%}">оценки</a>
+                    <a href="{% url 'journal' letter=class_letter year=class_year subject_id=lesson.subject.id%}">оценки</a>
                   {% else %}{% endif %}
                 </td>
               {% empty%}
@@ -45,8 +45,8 @@
         </tbody>
       </table>
       <div class="text-center">
-        <a href="{% url "schedule" letter=class_letter year=class_year%}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
-        <a href="{% url "schedule" letter=class_letter year=class_year%}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
+        <a href="{% url 'schedule' letter=class_letter year=class_year%}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
+        <a href="{% url 'schedule' letter=class_letter year=class_year%}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

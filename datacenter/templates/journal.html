@@ -7,20 +7,20 @@
   <body>
     <ul class="nav" style="background-color: #e3f2fd;">
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "classes" %}">На главную</a>
+        <a class="nav-link active" href="{% url 'classes' %}">На главную</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "class_info" letter=class_letter year=class_year %}">К классу</a>
+        <a class="nav-link active" href="{% url 'class_info' letter=class_letter year=class_year %}">К классу</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "schedule" year=class_year letter=class_letter %}">К расписанию</a>
+        <a class="nav-link active" href="{% url 'schedule' year=class_year letter=class_letter %}">К расписанию</a>
       </li>
     </ul>
     <div class="container">
       <h2 class="mt-2 mb-4">Журнал {{class_year}}{{class_letter}} класса по предмету «{{subject.title}}»</h2>
       <div class="text-center">
-        <a href="{% url "journal" letter=class_letter year=class_year subject_id=subject.id%}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
-        <a href="{% url "journal" letter=class_letter year=class_year subject_id=subject.id%}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
+        <a href="{% url 'journal' letter=class_letter year=class_year subject_id=subject.id%}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
+        <a href="{% url 'journal' letter=class_letter year=class_year subject_id=subject.id%}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
       </div>
       <table class="table table-striped mt-2 mb-4">
         <thead class="thead-dark">
@@ -43,8 +43,8 @@
         </tbody>
       </table>
       <div class="text-center">
-        <a href="{% url "journal" letter=class_letter year=class_year subject_id=subject.id%}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
-        <a href="{% url "journal" letter=class_letter year=class_year subject_id=subject.id%}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
+        <a href="{% url 'journal' letter=class_letter year=class_year subject_id=subject.id%}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
+        <a href="{% url 'journal' letter=class_letter year=class_year subject_id=subject.id%}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

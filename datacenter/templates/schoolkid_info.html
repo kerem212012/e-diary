@@ -7,13 +7,13 @@
   <body>
     <ul class="nav" style="background-color: #e3f2fd;">
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "classes" %}">На главную</a>
+        <a class="nav-link active" href="{% url 'classes' %}">На главную</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "class_info" letter=schoolkid.group_letter year=schoolkid.year_of_study %}">К классу</a>
+        <a class="nav-link active" href="{% url 'class_info' letter=schoolkid.group_letter year=schoolkid.year_of_study %}">К классу</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="{% url "schedule" letter=schoolkid.group_letter year=schoolkid.year_of_study %}">К расписанию</a>
+        <a class="nav-link active" href="{% url 'schedule' letter=schoolkid.group_letter year=schoolkid.year_of_study %}">К расписанию</a>
       </li>
     </ul>
     <div class="container">
@@ -31,7 +31,7 @@
           <tbody>
             {% for subject, subject_marks in marks.items %}
                 <tr>
-                    <th scope="row">{{subject.title}} <a href="{% url "journal" letter=schoolkid.group_letter year=schoolkid.year_of_study subject_id=subject.id%}">журнал</a></th>
+                    <th scope="row">{{subject.title}} <a href="{% url 'journal' letter=schoolkid.group_letter year=schoolkid.year_of_study subject_id=subject.id%}">журнал</a></th>
                     {% for day, marks_that_day in subject_marks.items %}
                         <td style="text-align:center;">{% for mark in marks_that_day %}{{mark.points}} {%endfor%}</td>
                     {% endfor %}
@@ -40,8 +40,8 @@
           </tbody>
         </table>
         <div class="text-center mb-4">
-          <a href="{% url "schoolkid" schoolkid_id=schoolkid.id %}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
-          <a href="{% url "schoolkid" schoolkid_id=schoolkid.id %}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
+          <a href="{% url 'schoolkid' schoolkid_id=schoolkid.id %}?week={{previous_week.week}}&year={{previous_week.year}}"><== Предыдущая неделя</a>
+          <a href="{% url 'schoolkid' schoolkid_id=schoolkid.id %}?week={{next_week.week}}&year={{next_week.year}}">Следующая неделя ==></a>
         </div>
         {% if all_commendations %}
           <h2 class="mt-2 mb-4">Похвалы от учителей</h2>

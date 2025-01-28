@@ -1,51 +1,69 @@
 # Электронный дневник школы
 
 Этот сайт - интерфейс для учеников школы. Здесь можно посмотреть оценки, расписание и прочую открытую информацию. Учителя заполняют базу данных через другой сайт. Ставят там оценки и т.д.
-
-## Описание моделей
-
-На сайте есть ученики: `Schoolkid`. Класс ученика определяется через комбинацию его полей `year_of_study` — год обучения и `group_letter` — литера класса. Вместе получается, например, 10А. Ученик связан со следующими моделями:
-
-- `Mark` — оценка на уроке, от 2 до 5.
-- `Commendation` — похвала от учителя, за особые достижения.
-- `Chastisement` — замечание от учителя, за особые проступки.
-
-Все 3 объекта связаны не только с учителем, который их создал, но и с учебным предметом (`Subject`). Примеры `Subject`:
-
-- Математика 8 класса
-- Геометрия 11 класса
-- Русский язык 1 класса
-- Русский язык 4 класса
-
-`Subject` определяется не только названием, но и годом обучения, для которого учебный предмет проходит.
-
-За расписание уроков отвечает модель `Lesson`. Каждый объект `Lesson` — урок в расписании. У урока есть комбинация `year_of_study` и `group_letter`, благодаря ей можно узнать для какого класса проходит этот урок. У урока есть `subject` и `teacher`, которые отвечают на вопросы "что за урок" и "кто ведёт". У урока есть `room` — номер кабинета, где он проходит. Урок проходит в дату `date`.
-
-Расписание в школе строится по слотам:
-
-- 8:00-8:40 — 1 урок
-- 8:50-9:30 — 2 урок
-- ...
-
-У каждого `Lesson` есть поле `timeslot`, которое объясняет, какой номер у этого урока в расписании.
-
-## Запуск
+## Запуск сервера
 
 - Скачайте код
 - Установите зависимости командой `pip install -r requirements.txt`
 - Создайте БД командой `python3 manage.py migrate`
 - Запустите сервер командой `python3 manage.py runserver`
+## Запуск команды
+- `python manage.py shell`
+- `from datacenter.models import Mark,Schoolkid,Chastisement,Lesson,Commendation`
+- `from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned`
+- `import random`
+- `arguments=["Молодец!","Отлично!","Хорошо!","Гораздо лучше, чем я ожидал!","Ты сегодня прыгнул выше головы!","С каждым разом у тебя получается всё лучше!","Я поражен!","Потрясающе!","Замечательно","Здорово!"]`
 
-## Переменные окружения
-
-Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` рядом с `manage.py` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
-
-Доступны 3 переменные:
-- `DEBUG` — дебаг-режим. Поставьте True, чтобы увидеть отладочную информацию в случае ошибки.
-- `SECRET_KEY` — секретный ключ проекта
-- `ALLOWED_HOSTS` — см [документацию Django](https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts).
-- `DATABASE_NAME` — путь до базы данных, например: `schoolbase.sqlite3`
-
+## Функции
+### **Предупреждения имя и урок должно быть в " "**
+### Изменения оценок:
+```python
+def fix_marks(name):
+    try:
+        kid = Schoolkid.objects.get(full_name__contains=name)
+        bat_marks = Mark.objects.filter(schoolkid=kid,points__in = [2,3,4])
+        for bat_mark in bat_marks:
+             bat_mark.points = 5
+             bat_mark.save()
+    except DoesNotExist:
+        print(f"Кря,ученик по имени {name} не найден проверьте имя!")
+    except .MultipleObjectsReturned:
+        print(f"Кря,уточните имя ученика")
+```
+Запуск функции:
+`fix_marks("имя")`
+### Удаление жалоб:
+```python
+def remove_chastisements(name):
+    try:
+        kid = Schoolkid.objects.get(full_name__contains=name)
+        comments = Chastisement.objects.filter(schoolkid=kid)
+        for comment in comments:
+            comment.delete()
+    except DoesNotExist:
+        print(f"Кря,ученик по имени {name} не найден проверьте имя!")
+    except MultipleObjectsReturned:
+        print(f"Кря,уточните имя ученика")
+```
+Запуск функции:
+`remove_chastisements("имя")`
+### Создание похвали от учителя:
+```python
+def create_commendation(name,subject):
+    try:
+        kid = Schoolkid.objects.get(full_name__contains=name)
+        lessons = Lesson.objects.filter(group_letter=kid.group_letter,year_of_study=kid.year_of_study,subject__title=subject)
+        Commendation.objects.all().create(created=lessons[random.randint(0,len(lessons))].date,schoolkid=kid,teacher=lessons[0].teacher,subject=lessons[0].subject,text=random.choice(arguments))
+    except ObjectDoesNotExist:
+            print(f"Кря,ученик по имени {name} или урок не найден проверьте имя!")
+    except MultipleObjectsReturned:
+            print(f"Кря,уточните имя ученика")
+```
+Запуск функции:
+`create_commendation("имя","урок")`
+## Туториалы
+[Туториалы](https://www.youtube.com/watch?v=34Rp6KVGIEM&list=PLDyJYA6aTY1lPWXBPk0gw6gR8fEtPDGKa)
 ## Цели проекта
 
 Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
+
